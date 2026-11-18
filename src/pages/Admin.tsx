@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
   const [items, setItems] = useState<CarouselItem[]>([]);
+  const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [link, setLink] = useState("");
@@ -19,8 +20,9 @@ export default function Admin() {
 
   const handleAdd = () => {
     if (!title || !image || !link) return;
-    const updated = addItem({ title, image, link, status: status || undefined });
+    const updated = addItem({ name: name || undefined, title, image, link, status: status || undefined });
     setItems(updated);
+    setName("");
     setTitle("");
     setImage("");
     setLink("");
@@ -50,7 +52,12 @@ export default function Admin() {
             <Plus className="w-5 h-5" /> Thêm mục mới
           </h2>
           <Input
-            placeholder="Tiêu đề"
+            placeholder="Tên khu (vd: Song Thân)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            placeholder="Hạng gói (vd: GÓI CAO CẤP)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -87,7 +94,7 @@ export default function Admin() {
                 className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{item.title}</p>
+                <p className="font-medium truncate">{item.name ?? item.title}</p>
                 <p className="text-sm text-muted-foreground truncate">{item.link}</p>
                 {item.status && (
                   <span className="text-xs text-muted-foreground">{item.status}</span>

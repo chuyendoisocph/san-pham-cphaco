@@ -2,44 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/*
+  BẢNG MÀU — đổi tông màu cho toàn trang chỉ cần sửa các biến trong :root.
+  Tất cả màu ở dạng HSL (không có "hsl()").
+
+  Bảng màu chủ đạo:
+    #1F3F7A  xanh navy      -> --primary
+    #6EA8E1  xanh da trời   -> --sky (nền nhấn nhẹ, viền focus)
+    #DAA64A  vàng           -> --gold (điểm nhấn trên nền tối)
+    #A86A3D  nâu đồng       -> --accent (chữ nhấn nhỏ trên nền sáng)
+    #B9B9C9  xám tím        -> nền phụ / đường kẻ (bản nhạt hơn)
+    #F4F6FA  trắng xanh     -> --background
 */
 
 @layer base {
   :root {
-    --background: 145 40% 12%;
-    --foreground: 145 40% 98%;
+    --background: 220 38% 97%;
+    --foreground: 220 50% 14%;
 
-    --card: 145 40% 15%;
-    --card-foreground: 145 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 50% 14%;
 
-    --popover: 145 40% 15%;
-    --popover-foreground: 145 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 50% 14%;
 
-    --primary: 145 50% 45%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 219 60% 30%;
+    --primary-foreground: 220 38% 97%;
 
-    --secondary: 140 30% 25%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 210 66% 93%;
+    --secondary-foreground: 219 60% 30%;
 
-    --muted: 145 30% 22%;
-    --muted-foreground: 145 30% 70%;
+    --muted: 240 13% 92%;
+    --muted-foreground: 222 16% 40%;
 
-    --accent: 145 50% 45%;
+    --accent: 25 47% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --gold: 38 66% 57%;
+    --sky: 210 66% 66%;
+
+    --destructive: 0 72% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 145 30% 25%;
-    --input: 145 30% 25%;
-    --ring: 145 50% 45%;
+    --border: 240 13% 86%;
+    --input: 240 13% 80%;
+    --ring: 210 66% 52%;
 
-    --radius: 0.75rem;
-
-    --gradient-theme: linear-gradient(135deg, hsl(145 50% 10%), hsl(140 45% 18%), hsl(150 40% 12%));
-    --overlay-dark: 0 0% 0%;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -48,29 +57,7 @@ All colors MUST be HSL.
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 145 50% 45%;
-  }
-
-  .dark {
-    --background: 145 40% 12%;
-    --foreground: 145 40% 98%;
-    --card: 145 40% 15%;
-    --card-foreground: 145 40% 98%;
-    --popover: 145 40% 15%;
-    --popover-foreground: 145 40% 98%;
-    --primary: 145 50% 45%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 140 30% 25%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 145 30% 22%;
-    --muted-foreground: 145 30% 70%;
-    --accent: 145 50% 45%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 145 30% 25%;
-    --input: 145 30% 25%;
-    --ring: 145 50% 45%;
+    --sidebar-ring: 210 66% 52%;
   }
 }
 
@@ -79,27 +66,35 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scrollbar-color: hsl(var(--border)) transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 }
 
-@keyframes drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(20px, -24px, 0) scale(1.06);
-  }
-  100% {
-    transform: translate3d(-14px, 14px, 0) scale(0.96);
-  }
-}
-
-@keyframes fade-slide-up {
+@keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -107,74 +102,46 @@ All colors MUST be HSL.
   }
 }
 
-@keyframes soft-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.015);
-  }
-}
-
-@keyframes swipe-in-left {
+@keyframes auto-progress {
   from {
-    transform: translateX(48px);
-    opacity: 0.88;
+    transform: scaleX(0);
   }
   to {
-    transform: translateX(0);
-    opacity: 1;
+    transform: scaleX(1);
   }
 }
 
-@keyframes swipe-in-right {
+.auto-progress {
+  animation: auto-progress linear both;
+}
+
+.rise-in {
+  animation: rise-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes detail-in {
   from {
-    transform: translateX(-48px);
-    opacity: 0.88;
+    opacity: 0;
+    transform: translateY(8px);
   }
   to {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.ambient-blob {
-  animation: drift 11s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.animate-in-up {
-  animation: fade-slide-up 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) both;
-}
-
-.animate-delay-1 {
-  animation-delay: 80ms;
-}
-
-.animate-delay-2 {
-  animation-delay: 180ms;
-}
-
-.carousel-center-breathe {
-  animation: soft-breathe 3.6s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.card-swipe-left {
-  animation: swipe-in-left 0.55s cubic-bezier(0.45, 0, 0.15, 1) both;
-}
-
-.card-swipe-right {
-  animation: swipe-in-right 0.55s cubic-bezier(0.45, 0, 0.15, 1) both;
+/* Thông tin khu hiện ra khi đổi khu */
+.detail-in {
+  animation: detail-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ambient-blob,
-  .animate-in-up,
-  .carousel-center-breathe,
-  .card-swipe-left,
-  .card-swipe-right {
+  .rise-in,
+  .detail-in,
+  .auto-progress {
     animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
   }
 }
